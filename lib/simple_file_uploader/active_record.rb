@@ -22,10 +22,15 @@ module SimpleFileUploader
       public :read_uploader
       public :write_uploader
 
+
       before_save :"write_#{column}_identifier"
       validate :"run_#{column}_validate_callback"
       after_save :"run_#{column}_after_save_callbacks"
       after_destroy :"run_#{column}_after_destroy_callbacks"
+
+      validate do |obj|
+        obj.send(column).errors.each { |error| errors.add(column, error) }
+      end
 
       define_method :"#{column}=" do |value|
         _uploaders(column).file_name_identifier = value
@@ -36,11 +41,11 @@ module SimpleFileUploader
       end
 
       define_method :"run_#{column}_validate_callback" do
-        _uploaders(column).write_identifier!
+        _uploaders(column).validate_callback
       end
 
       define_method :"write_#{column}_identifier" do
-        _uploaders(column).validate_callback
+        _uploaders(column).write_identifier!
       end
 
       define_method :"run_#{column}_after_save_callbacks" do

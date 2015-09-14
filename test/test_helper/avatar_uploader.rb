@@ -13,4 +13,8 @@ class AvatarUploader < SimpleFileUploader::BaseUploader
     serializable_hash
   end
 
+  def validate_callback
+    errors << 'Invalid file name identitier' if @file_name_identifier == 'errored_uuid'
+  end
+
 end

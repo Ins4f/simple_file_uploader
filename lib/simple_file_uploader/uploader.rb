@@ -1,9 +1,10 @@
 module SimpleFileUploader
   class UploaderError < SimpleFileUploaderError; end
   class BaseUploader
-    attr_accessor :model, :mounted_as, :file_name_identifier
+    attr_accessor :model, :mounted_as, :file_name_identifier, :errors
 
     def initialize(model, mounted_as)
+      @errors = []
       @model, @mounted_as = model, mounted_as
     end
 
