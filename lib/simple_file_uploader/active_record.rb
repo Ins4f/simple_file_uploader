@@ -48,7 +48,7 @@ module SimpleFileUploader
       end
 
       define_method :"run_#{column}_after_destroy_callbacks" do
-        _uploaders(column).run_after_destroy_callbacks
+        _uploaders(column).run_after_de stroy_callbacks
       end
 
       define_method :"store_#{column}!" do
