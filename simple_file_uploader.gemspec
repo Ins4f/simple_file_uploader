@@ -1,9 +1,9 @@
 # -*- encoding: utf-8 -*-
-require File.expand_path('../lib/s3_media_client/version', __FILE__)
+require File.expand_path('../lib/simple_file_uploader/version', __FILE__)
 
 Gem::Specification.new do |s|
-  s.name = 's3_media_client'
-  s.version = S3MediaClient::VERSION
+  s.name = 'simple_file_uploader'
+  s.version = SimpleFileUploader::VERSION
 
   s.required_ruby_version = '>= 2.2.0'
   s.authors = ['Danil Nurgaliev']

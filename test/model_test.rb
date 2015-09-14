@@ -6,6 +6,8 @@ class ModelTest < ActiveSupport::TestCase
   end
 
   test 'sample test' do
+    @user.avatar = 'asd'
+    @user.save
   end
 
 end

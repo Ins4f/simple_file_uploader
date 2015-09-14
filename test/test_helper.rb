@@ -1,5 +1,6 @@
-require 'pathname'
 
+$:.unshift(File.expand_path("..", File.dirname(__FILE__)) + '/lib')
+require 'pathname'
 ENV['RAILS_ENV'] = 'test'
 
 require 'bundler/setup'
@@ -14,10 +15,7 @@ end
 puts "Testing against rails #{Rails::VERSION::STRING}"
 
 TEST_ROOT = File.dirname(__FILE__)
-
-GEM_ROOT = Pathname.new(File.expand_path("..", File.dirname(__FILE__)))
-
-require GEM_ROOT + File.join(%w{lib s3_multipart_api})
+require 'simple_file_uploader'
 
 class TestApp
   class Application < ::Rails::Application
@@ -50,8 +48,7 @@ end
 require File.join(TEST_ROOT, 'test_helper/routes')
 require File.join(TEST_ROOT, 'test_helper/avatar_uploader')
 require File.join(TEST_ROOT, 'test_helper/user')
-require File.join(TEST_ROOT, 'test_helper/users_controller')
-require File.join(TEST_ROOT, 's3_multipart_api_initializer')
+
 
 
 class ActiveSupport::TestCase

@@ -1,2 +1,2 @@
-class AvatarUploader < S3MediaClient::Uploader::Base
+class AvatarUploader < SimpleFileUploader::BaseUploader
 end
