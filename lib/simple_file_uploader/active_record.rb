@@ -14,6 +14,7 @@ module SimpleFileUploader
     # @required uploader - [class] the class of Uploader used for field as uploader
     def mount_simple_uploader(column, uploader, options = {})
 
+      uploader.remember_uploader(self, column)
       uploaders[column.to_sym] = uploader
       uploader_options[column.to_sym] = options
 
@@ -22,46 +23,26 @@ module SimpleFileUploader
       public :read_uploader
       public :write_uploader
 
-
-      before_save :"write_#{column}_identifier"
-      validate :"run_#{column}_validate_callback"
-      after_save :"run_#{column}_after_save_callbacks"
-      after_destroy :"run_#{column}_after_destroy_callbacks"
+      before_save{ _uploaders(column).write_identifier! }
+      after_create { _uploaders(column).on_create }
+      after_destroy { _uploaders(column).on_destroy }
+      after_update{ _uploaders(column).on_update(changes[column].first) if changes[column] }
 
       validate do |obj|
         obj.send(column).errors.each { |error| errors.add(column, error) }
       end
 
       define_method :"#{column}=" do |value|
-        _uploaders(column).file_name_identifier = value
+        _uploaders(column).column_value = value
       end
 
       define_method :"#{column}" do
         _uploaders(column)
       end
 
-      define_method :"run_#{column}_validate_callback" do
-        _uploaders(column).validate_callback
-      end
-
-      define_method :"write_#{column}_identifier" do
-        _uploaders(column).write_identifier!
-      end
-
-      define_method :"run_#{column}_after_save_callbacks" do
-        _uploaders(column).run_after_save_callbacks
-      end
-
-      define_method :"run_#{column}_after_destroy_callbacks" do
-        _uploaders(column).run_after_de stroy_callbacks
-      end
-
-      define_method :"store_#{column}!" do
-        _uploaders(column).store!
-      end
-
-      define_method :"#{column}_delete" do
-        _uploaders(column).delete
+      define_method :"remove_#{column}!" do
+        _uploaders(column).remove
+        save!
       end
 
       define_method :_uploaders do |column|

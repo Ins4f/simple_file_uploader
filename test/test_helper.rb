@@ -49,8 +49,6 @@ require File.join(TEST_ROOT, 'test_helper/routes')
 require File.join(TEST_ROOT, 'test_helper/avatar_uploader')
 require File.join(TEST_ROOT, 'test_helper/user')
 
-
-
 class ActiveSupport::TestCase
 
   def pretty_generate(response_body)
